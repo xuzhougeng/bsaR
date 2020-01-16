@@ -4,12 +4,14 @@
 \alias{CalcFreqByWindow}
 \title{caculate the frequency by windows}
 \usage{
-CalcFreqByWindow(bsa, widow.size = 50000)
+CalcFreqByWindow(bsa, window.size = 50000, force = FALSE)
 }
 \arguments{
 \item{bsa}{bsaR object}
 
 \item{window.size}{window size, default is 50000}
+
+\item{force}{TRUE or FALSE}
 }
 \description{
 caculate the frequency by windows

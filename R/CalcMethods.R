@@ -97,24 +97,29 @@ CalcFreqByWindow <- function(bsa, window.size = 50000){
     if ( ranges[2] - ranges[1] < 3 * window.size ) return(NULL)
 
     # break windows
-    windows <- cut(pos, breaks = seq(1, ranges[2] + window.size, window.size))
+    windows.breaks <- seq(1, ranges[2] + window.size, window.size)
+    windows <- cut(pos, breaks = windows.breaks)
     windows.levels <- levels(windows)
+    names(windows.breaks) <- levels(windows)
 
     # get the start and end of each chromosome
     start <- variants.cumsum[x] - variants.num[x] + 1
     end   <- variants.cumsum[x]
+
     # subset the Freq
     freqs <- Freq[seq(start, end), ]
 
-    freq.windows <- matrix(0,nrow = length(windows.levels),ncol = 2)
+    freq.windows <- matrix(0,nrow = length(windows.levels),
+                           ncol = ncol(freqs)  + 1)
+
     row.names(freq.windows) <- windows.levels
-    colnames(freq.windows) <- colnames(Freq)
+    colnames(freq.windows) <- c(colnames(Freq), "pos")
 
     for (window in windows.levels) {
       idx <- which(windows == window)
-      freq.windows[window,] <- colMeans(freqs[idx, , drop = FALSE])
+      freq.windows[window,] <- c(colMeans(freqs[idx, , drop = FALSE]),
+                                 windows.breaks[window])
     }
-    freq.windows
   })
   names(freq.split) <- unique(bsa$meta$CHROM)
 
@@ -122,3 +127,4 @@ CalcFreqByWindow <- function(bsa, window.size = 50000){
   return(bsa)
 
 }
+
