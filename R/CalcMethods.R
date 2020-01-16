@@ -74,13 +74,14 @@ CalcAltFreq <- function(bsa){
 #'
 #' @param bsa bsaR object
 #' @param window.size window size, default is 50000
+#' @param force TRUE or FALSE
 #'
 #' @export
-CalcFreqByWindow <- function(bsa, window.size = 50000){
+CalcFreqByWindow <- function(bsa, window.size = 50000, force = FALSE){
 
   list.name <- paste0("w", window.size)
 
-  if ( list.name %in% names(slot(bsa, "Window"))){
+  if ( list.name %in% names(slot(bsa, "Window")) && ( !force) ){
     return(bsa)
   }
 
@@ -94,7 +95,7 @@ CalcFreqByWindow <- function(bsa, window.size = 50000){
     pos <- meta.split[[x]]$POS
     ranges <- range(pos)
     # too short
-    if ( ranges[2] - ranges[1] < 3 * window.size ) return(NULL)
+    if ( (ranges[2] - ranges[1]) < 3 * window.size ) return(NULL)
 
     # break windows
     windows.breaks <- seq(1, ranges[2] + window.size, window.size)
@@ -120,6 +121,7 @@ CalcFreqByWindow <- function(bsa, window.size = 50000){
       freq.windows[window,] <- c(colMeans(freqs[idx, , drop = FALSE]),
                                  windows.breaks[window])
     }
+    freq.windows
   })
   names(freq.split) <- unique(bsa$meta$CHROM)
 
