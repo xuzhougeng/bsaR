@@ -4,8 +4,14 @@
 \alias{plotWindowFreq}
 \title{plot window frequency}
 \usage{
-plotWindowFreq(bsa, chr = NULL, geno1 = NULL, geno2 = NULL,
-  window.size = NULL, cols = c("red", "blue", "black"))
+plotWindowFreq(
+  bsa,
+  chr = NULL,
+  geno1 = NULL,
+  geno2 = NULL,
+  window.size = NULL,
+  cols = c("red", "blue", "black")
+)
 }
 \arguments{
 \item{bsa}{bsa object}

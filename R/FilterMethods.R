@@ -56,12 +56,13 @@ FilterNaVariant <- function(bsa){
 #' filter allele matrix by depth
 #'
 #' @param bsa bsa object
-#' @param depth depth threshold, default is 20
+#' @param min.depth minimum depth threshold, default is 20
+#' @param max.depth maximum depth threshold, default is 5 * min.depth
 #'
 #' @export
-FilterLowDepth <- function(bsa, depth = 20){
+FilterByDepth <- function(bsa, min.depth = 20, max.depth = 5 * min.depth){
 
-  mask <- apply(bsa@Depth >= depth, 1, all)
+  mask <- apply(bsa@Depth >= min.depth & bsa@Depth <= max.depth, 1, all)
 
   slot(bsa, "meta") <- bsa@meta[mask, ]
   slot(bsa, "AD") <- bsa@AD[mask,]
@@ -78,6 +79,36 @@ FilterLowDepth <- function(bsa, depth = 20){
   return(bsa)
 
 }
+
+#' filter allele matrix by low AF
+#'
+#' @param bsa bsa object
+#' @param min.AF minimum AF threshold, default is 0.01
+#' @param max.AF maximum AF threshold, default is 0.01
+#'
+#' @export
+FilterByAF <- function(bsa, min.AF = 0.01, max.AF = 1 ){
+
+  mask_mt <- bsa@Freq >= min.AF & bsa@Freq <= max.AF
+  mask <- rowSums(mask_mt) != 2
+
+  slot(bsa, "meta") <- bsa@meta[mask, ]
+  slot(bsa, "AD") <- bsa@AD[mask,]
+
+  if (! nrow(bsa@Freq) == 0 ){
+    slot(bsa, "Freq") <- bsa@Freq[mask,]
+  }
+
+  if (! nrow(bsa@Depth) == 0 ){
+    slot(bsa, "Depth") <- bsa@Depth[mask,]
+  }
+
+
+  return(bsa)
+
+}
+
+
 
 #' subset genome
 #'
