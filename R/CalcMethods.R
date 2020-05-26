@@ -3,7 +3,7 @@
 #'
 #' @param vcf.file vcf file path
 #'
-#' @importFrom vcfR read.vcfR getCHROM getPOS extract.gt
+#' @importFrom vcfR read.vcfR getCHROM getPOS extract.gt is.biallelic
 #'
 #' @export
 CreateBsaFromVcf <- function(vcf.file){

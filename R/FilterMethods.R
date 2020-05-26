@@ -57,10 +57,10 @@ FilterNaVariant <- function(bsa){
 #'
 #' @param bsa bsa object
 #' @param min.depth minimum depth threshold, default is 20
-#' @param max.depth maximum depth threshold, default is 5 * min.depth
+#' @param max.depth maximum depth threshold, default is 3 * min.depth
 #'
 #' @export
-FilterByDepth <- function(bsa, min.depth = 20, max.depth = 5 * min.depth){
+FilterByDepth <- function(bsa, min.depth = 20, max.depth = 3 * min.depth){
 
   mask <- apply(bsa@Depth >= min.depth & bsa@Depth <= max.depth, 1, all)
 
@@ -90,7 +90,7 @@ FilterByDepth <- function(bsa, min.depth = 20, max.depth = 5 * min.depth){
 FilterByAF <- function(bsa, min.AF = 0.01, max.AF = 1 ){
 
   mask_mt <- bsa@Freq >= min.AF & bsa@Freq <= max.AF
-  mask <- rowSums(mask_mt) != 2
+  mask <- rowSums(mask_mt) == 2
 
   slot(bsa, "meta") <- bsa@meta[mask, ]
   slot(bsa, "AD") <- bsa@AD[mask,]

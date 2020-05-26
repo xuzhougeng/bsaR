@@ -4,14 +4,14 @@
 \alias{FilterByDepth}
 \title{filter allele matrix by depth}
 \usage{
-FilterByDepth(bsa, min.depth = 20, max.depth = 5 * min.depth)
+FilterByDepth(bsa, min.depth = 20, max.depth = 3 * min.depth)
 }
 \arguments{
 \item{bsa}{bsa object}
 
 \item{min.depth}{minimum depth threshold, default is 20}
 
-\item{max.depth}{maximum depth threshold, default is 5 * min.depth}
+\item{max.depth}{maximum depth threshold, default is 3 * min.depth}
 }
 \description{
 filter allele matrix by depth
