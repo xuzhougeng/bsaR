@@ -2,12 +2,13 @@
 #' Create bsa object from vcf
 #'
 #' @param vcf.file vcf file path
+#' @param conf.marker confidence marker
 #'
 #' @importFrom vcfR read.vcfR getCHROM getPOS extract.gt is.biallelic
 #' @importFrom vcfR getREF getALT
 #'
 #' @export
-CreateBsaFromVcf <- function(vcf.file){
+CreateBsaFromVcf <- function(vcf.file, conf.marker = NULL){
 
   # create new BSA object
   bsa <- new("bsaR")
@@ -21,6 +22,10 @@ CreateBsaFromVcf <- function(vcf.file){
                      biallele = is.biallelic(vcf))
   slot(bsa, "meta") <- meta
   slot(bsa, "AD") <- extract.gt(vcf, element = "AD")
+
+  if ( !is.null(conf.marker)){
+    bsa <- FilterByPos(bsa, conf.marker)
+  }
 
   return(bsa)
 

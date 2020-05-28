@@ -4,10 +4,12 @@
 \alias{CreateBsaFromVcf}
 \title{Create bsa object from vcf}
 \usage{
-CreateBsaFromVcf(vcf.file)
+CreateBsaFromVcf(vcf.file, conf.marker = NULL)
 }
 \arguments{
 \item{vcf.file}{vcf file path}
+
+\item{conf.marker}{confidence marker}
 }
 \description{
 Create bsa object from vcf
