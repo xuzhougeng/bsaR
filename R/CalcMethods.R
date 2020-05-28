@@ -4,6 +4,7 @@
 #' @param vcf.file vcf file path
 #'
 #' @importFrom vcfR read.vcfR getCHROM getPOS extract.gt is.biallelic
+#' @importFrom vcfR getREF getALT
 #'
 #' @export
 CreateBsaFromVcf <- function(vcf.file){
@@ -15,6 +16,8 @@ CreateBsaFromVcf <- function(vcf.file){
 
   meta <- data.frame(CHROM = getCHROM(vcf),
                      POS   = getPOS(vcf),
+                     REF   = getREF(vcf),
+                     ALT   = getALT(vcf),
                      biallele = is.biallelic(vcf))
   slot(bsa, "meta") <- meta
   slot(bsa, "AD") <- extract.gt(vcf, element = "AD")

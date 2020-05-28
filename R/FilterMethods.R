@@ -109,6 +109,34 @@ FilterByAF <- function(bsa, min.AF = 0.01, max.AF = 1 ){
 }
 
 
+#' filter allele matrix by Position
+#'
+#' @param bsa bsa object
+#' @param pos position vector, e.g. chr1_1000
+#'
+#' @export
+FilterByPos <- function(bsa, pos ){
+
+  all.pos <- paste0(bsa@meta$CHROM, "_", bsa@meta$POS)
+  mask <- all.pos %in% conf_marker
+
+  slot(bsa, "meta") <- bsa@meta[mask, ]
+  slot(bsa, "AD") <- bsa@AD[mask,]
+
+  if (! nrow(bsa@Freq) == 0 ){
+    slot(bsa, "Freq") <- bsa@Freq[mask,]
+  }
+
+  if (! nrow(bsa@Depth) == 0 ){
+    slot(bsa, "Depth") <- bsa@Depth[mask,]
+  }
+
+
+  return(bsa)
+
+}
+
+
 
 #' subset genome
 #'
