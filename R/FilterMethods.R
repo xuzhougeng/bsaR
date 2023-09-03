@@ -127,14 +127,17 @@ FilterByGeno <- function(bsa, p.wt, p.mut){
   #  the genotype of parent should not same
   p.wt.gt <- x[, p.wt]
   p.mut.gt <- x[, p.mut]
-  mask <- p.wt.gt != p.mut.gt
+  mask1 <- p.wt.gt != p.mut.gt
   
-  # or the genotype of parent should not be 2
-  mask <- mask | p.wt.gt == 2 | p.mut.gt == 2
+  # the genotype of parent should not be 2
+  mask2 <- p.wt.gt != 2 & p.mut.gt != 2
+
+  mask <- which( mask1 & mask2)
 
   slot(bsa, "meta") <- bsa@meta[mask, ]
   slot(bsa, "Depth") <- bsa@Depth[mask,]
   slot(bsa, "AD") <- bsa@AD[mask,]
+  slot(bsa, "GT") <- bsa@GT[mask,]
   slot(bsa, "Freq") <- bsa@Freq[mask,]
 
   return (bsa)
