@@ -3,12 +3,13 @@
 #'
 #' @param vcf.file vcf file path
 #' @param conf.marker confidence marker
+#' @param snpEff TRUE or FALSE
 #'
 #' @importFrom vcfR read.vcfR getCHROM getPOS extract.gt is.biallelic
 #' @importFrom vcfR getREF getALT
 #'
 #' @export
-CreateBsaFromVcf <- function(vcf.file, conf.marker = NULL){
+CreateBsaFromVcf <- function(vcf.file, conf.marker = NULL, snpEff = FALSE){
 
   # create new BSA object
   bsa <- new("bsaR")
@@ -20,6 +21,10 @@ CreateBsaFromVcf <- function(vcf.file, conf.marker = NULL){
                      REF   = getREF(vcf),
                      ALT   = getALT(vcf),
                      biallele = is.biallelic(vcf))
+  if (snpEff){
+    meta$EFF <- extract.gt(vcf, element = "EFF")
+  }
+
   slot(bsa, "meta") <- meta
   slot(bsa, "AD") <- extract.gt(vcf, element = "AD")
 
