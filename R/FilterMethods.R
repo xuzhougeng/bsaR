@@ -134,8 +134,12 @@ FilterByGeno <- function(bsa, p.wt, p.mut){
 
   mask <- which( mask1 & mask2)
 
+  if (length(bsa@Depth) != 0){
+    slot(bsa, "Depth") <- bsa@Depth[mask,]
+  }
+
   slot(bsa, "meta") <- bsa@meta[mask, ]
-  slot(bsa, "Depth") <- bsa@Depth[mask,]
+  
   slot(bsa, "AD") <- bsa@AD[mask,]
   slot(bsa, "GT") <- bsa@GT[mask,]
   slot(bsa, "Freq") <- bsa@Freq[mask,]

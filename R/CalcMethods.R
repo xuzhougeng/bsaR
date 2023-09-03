@@ -6,7 +6,7 @@
 #' @param snpEff TRUE or FALSE
 #'
 #' @importFrom vcfR read.vcfR getCHROM getPOS extract.gt is.biallelic
-#' @importFrom vcfR getREF getALT
+#' @importFrom vcfR getREF getALT extract.info
 #'
 #' @export
 CreateBsaFromVcf <- function(vcf.file, conf.marker = NULL, snpEff = FALSE){
@@ -22,7 +22,7 @@ CreateBsaFromVcf <- function(vcf.file, conf.marker = NULL, snpEff = FALSE){
                      ALT   = getALT(vcf),
                      biallele = is.biallelic(vcf))
   if (snpEff){
-    meta$EFF <- extract.gt(vcf, element = "EFF")
+    meta$EFF <- extract.info(vcf, "EFF")
   }
 
   slot(bsa, "meta") <- meta
