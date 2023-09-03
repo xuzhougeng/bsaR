@@ -124,15 +124,18 @@ FilterByGeno <- function(bsa, p.wt, p.mut){
   if (! p.wt %in% colnames(x) | ! p.mut %in% colnames(x)){
     stop("The sample name is not in the AD matrix, check your input")
   }
-  # filter loci by genotype: the genotype of parent should not same
+  #  the genotype of parent should not same
   p.wt.gt <- x[, p.wt]
   p.mut.gt <- x[, p.mut]
   mask <- p.wt.gt != p.mut.gt
+  
+  # or the genotype of parent should not be 2
+  mask <- mask | p.wt.gt == 2 | p.mut.gt == 2
 
   slot(bsa, "meta") <- bsa@meta[mask, ]
   slot(bsa, "Depth") <- bsa@Depth[mask,]
   slot(bsa, "AD") <- bsa@AD[mask,]
-  slot(bsa, "AF") <- bsa@AF[mask,]
+  slot(bsa, "Freq") <- bsa@Freq[mask,]
 
   return (bsa)
 
