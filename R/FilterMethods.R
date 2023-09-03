@@ -117,7 +117,7 @@ FilterByAF <- function(bsa, min.AF = 0.01, max.AF = 1 ){
 FilterByGeno <- function(bsa, p.wt, p.mut){
   x <- bsa@GT
   # slot GT should be empty
-  if (length(x) != 0){
+  if (length(x) == 0){
     stop("GT slot should be empty, run CallGenotype first")
   }
   # the sample name should be in the GT matrix

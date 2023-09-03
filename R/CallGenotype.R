@@ -24,4 +24,6 @@ CallGenotype <- function(bsa, low.AF=0.2, high.AF=0.8){
     x[heter_pos] <- 2
 
     slot(bsa, "GT") <- x
+
+    return(bsa)
 }
