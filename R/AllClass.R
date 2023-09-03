@@ -13,6 +13,7 @@ setClass(Class = "bsaR",
                    AD = "matrix",
                    Depth = "matrix",
                    Freq = "matrix",
+                     GT = "matrix",
                    Window = "list"))
 
 

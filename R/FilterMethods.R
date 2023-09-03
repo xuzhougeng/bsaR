@@ -24,7 +24,6 @@ FilterMultiVariant <- function(bsa){
 
 }
 
-
 #' filter NA Variant
 #'
 #' @param bsa bsa object
@@ -105,6 +104,37 @@ FilterByAF <- function(bsa, min.AF = 0.01, max.AF = 1 ){
 
 
   return(bsa)
+
+}
+
+#' filter loci  by geno type
+#' 
+#' @param bsa bsa object
+#' @param p.wt sample name of parent wild type
+#' @param p.mut sample name of parent mutant
+#' 
+#' @export 
+FilterByGeno <- function(bsa, p.wt, p.mut){
+  x <- bsa@GT
+  # slot GT should be empty
+  if (length(x) != 0){
+    stop("GT slot should be empty, run CallGenotype first")
+  }
+  # the sample name should be in the GT matrix
+  if (! p.wt %in% colnames(x) | ! p.mut %in% colnames(x)){
+    stop("The sample name is not in the AD matrix, check your input")
+  }
+  # filter loci by genotype: the genotype of parent should not same
+  p.wt.gt <- x[, p.wt]
+  p.mut.gt <- x[, p.mut]
+  mask <- p.wt.gt != p.mut.gt
+
+  slot(bsa, "meta") <- bsa@meta[mask, ]
+  slot(bsa, "Depth") <- bsa@Depth[mask,]
+  slot(bsa, "AD") <- bsa@AD[mask,]
+  slot(bsa, "AF") <- bsa@AF[mask,]
+
+  return (bsa)
 
 }
 
